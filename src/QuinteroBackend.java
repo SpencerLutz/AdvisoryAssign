@@ -10,7 +10,7 @@ public class QuinteroBackend {
     private File data;
     private ArrayList<Advisory> advisories;
     private ArrayList<Location> locations;
-    private ArrayList<String> lines;
+    public ArrayList<String> lines;
     private HashMap<Advisory, Location> presetMap;
 
     public QuinteroBackend(){
@@ -95,11 +95,13 @@ public class QuinteroBackend {
     }
 
     public void removeAdvisory(String name){
+        if(advisories.indexOf(getAdvByName(name)) == -1) return;
         lines.remove(advisories.indexOf(getAdvByName(name)));
         advisories.remove(getAdvByName(name));
     }
 
     public void removeLocation(String name){
+        if(locations.indexOf(getLocByName(name)) == -1) return;
         lines.remove(locations.indexOf(getLocByName(name))+advisories.size()+1);
         locations.remove(getLocByName(name));
     }
@@ -183,11 +185,13 @@ public class QuinteroBackend {
 
     private Advisory getAdvByName(String name){
         for(Advisory a : advisories) if(a.name.equals(name)) return a;
+        System.out.println("No advisory with name "+name);
         return null;
     }
 
     private Location getLocByName(String name){
         for(Location l : locations) if(l.name.equals(name)) return l;
+        System.out.println("No location with name "+name);
         return null;
     }
 }
