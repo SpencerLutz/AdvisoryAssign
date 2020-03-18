@@ -91,7 +91,7 @@ public class QuinteroBackend {
 
         Location newprev = locations.get((int)(Math.random()*locations.size()));
         advisories.add(new Advisory(name, value, newprev));
-        lines.add(0, name+" - "+value+" - "+locations.indexOf(newprev));
+        lines.add(advisories.indexOf(getAdvByName(name)), name+" - "+value+" - "+locations.indexOf(newprev));
     }
 
     public void removeAdvisory(String name){
