@@ -83,6 +83,36 @@ public class QuinteroBackend {
         }
     }
 
+    public void saveCSV(HashMap<Advisory,Location> map, String path){
+        File save = new File(path+"/Assignments.csv");
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(save);
+            bw = new BufferedWriter(fw);
+            String[][] info = new String[map.keySet().size()][2];
+            int i = 0;
+            for(Advisory adv : map.keySet()) {
+                info[i][0] = adv.name;
+                info[i][1] = map.get(adv).name;
+                i++;
+            }
+            for(int j = 0; j < info.length; j++){
+                bw.write(info[j][0]+","+info[j][1]);
+                bw.newLine();
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        } finally {
+            try{
+                bw.close();
+                fw.close();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void addAdvisory(String name){
         int value = 0;
         for(Advisory a : advisories)
