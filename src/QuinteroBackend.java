@@ -124,22 +124,21 @@ public class QuinteroBackend {
         lines.add(advisories.indexOf(getAdvByName(name)), name+" - "+value+" - "+locations.indexOf(newprev));
     }
 
+    public void editAdvisory(String name, String changeTo){
+        Advisory adv = getAdvByName(name);
+        adv.name = changeTo;
+        lines.set(advisories.indexOf(adv), adv.name+" - "+adv.total+" - "+locations.indexOf(adv.previous));
+    }
+
     public void removeAdvisory(String name){
         if(advisories.indexOf(getAdvByName(name)) == -1) return;
         lines.remove(advisories.indexOf(getAdvByName(name)));
         advisories.remove(getAdvByName(name));
     }
 
-    public void removeLocation(String name){
-        if(locations.indexOf(getLocByName(name)) == -1) return;
-        lines.remove(locations.indexOf(getLocByName(name))+advisories.size()+1);
-        locations.remove(getLocByName(name));
-    }
-
-    public void editAdvisory(String name, String changeTo){
-        Advisory adv = getAdvByName(name);
-        adv.name = changeTo;
-        lines.set(advisories.indexOf(adv), adv.name+" - "+adv.total+" - "+locations.indexOf(adv.previous));
+    public void addLocation(String name, int score){
+        locations.add(new Location(name, score));
+        lines.add(locations.indexOf(getLocByName(name))+advisories.size()+1, name+" - "+score);
     }
 
     public void editLocation(String name, String changeTo){
@@ -148,9 +147,10 @@ public class QuinteroBackend {
         lines.set(locations.indexOf(loc)+advisories.size()+1, loc.name+" - "+loc.score);
     }
 
-    public void addLocation(String name, int score){
-        locations.add(new Location(name, score));
-        lines.add(advisories.size()+1, name+" - "+score);
+    public void removeLocation(String name){
+        if(locations.indexOf(getLocByName(name)) == -1) return;
+        lines.remove(locations.indexOf(getLocByName(name))+advisories.size()+1);
+        locations.remove(getLocByName(name));
     }
 
     public void setLocation(String a, String l){
