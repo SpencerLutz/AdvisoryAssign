@@ -15,7 +15,7 @@ public class QuinteroBackend {
 
     public QuinteroBackend() {
         String path = Paths.get("").toAbsolutePath().toString(); // gets current path
-        data        = new File(path+"/testdata.txt"); // creates File object at current path
+        data        = new File(path+"/data.txt"); // creates File object at current path
         advisories  = new ArrayList<>(); 
         locations   = new ArrayList<>();
         lines       = new ArrayList<>();
