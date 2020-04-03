@@ -1,0 +1,46 @@
+Bator - 0 - 17
+Bebensee - 0 - 18
+Beck/Martinez - 0 - 7
+Mrs. Berryman - 0 - 10
+Mr. Berryman - 0 - 11
+Bishop - 0 - 15
+Davis - 0 - 0
+Dunn - 0 - 1
+Everts - 0 - 16
+Froehlich - 0 - 19
+Holsinger - 0 - 2
+Leer - 0 - 3
+Mahler - 0 - 4
+Morrish - 0 - 12
+O'Neill - 0 - 20
+Pergande - 0 - 21
+Samples - 0 - 8
+Snowden - 0 - 9
+Thompson - 0 - 13
+Wheeler - 0 - 14
+Wiggs - 0 - 5
+Wyman - 0 - 6
+x
+Upper Left Alcove - 4
+Upper Left Hallway - -4
+Upper Left Diagonal Bench - 0
+Upper Left Center Rail - 0
+Upper Right Alcove - 3
+Upper Right Hallway - -3
+Upper Right Diagonal Bench - 0
+Upper Left Center Rail - 0
+Stair Landing - 0
+Upper Stairs - -1
+Lower Stairs - -2
+Atrium Floor - -12
+Mic Stand - 8
+Lower Left Diagonal - 7
+Lower Left Hallway - -6
+Student Kitchen - 0
+Left Giant Step - 2
+Right Giant Step - 1
+Lower Right Diagonal 1 - 6
+Lower Right Hallway - -5
+Lower Right Diagonal 2 (tv screen) - 5
+Other - 0
+x

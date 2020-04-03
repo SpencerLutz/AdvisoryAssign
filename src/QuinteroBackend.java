@@ -15,7 +15,7 @@ public class QuinteroBackend {
 
     public QuinteroBackend() {
         String path = Paths.get("").toAbsolutePath().toString(); // gets current path
-        data        = new File(s+"/test.txt"); // creates File object at current path
+        data        = new File(path+"/testdata.txt"); // creates File object at current path
         advisories  = new ArrayList<>(); 
         locations   = new ArrayList<>();
         lines       = new ArrayList<>();
@@ -265,11 +265,11 @@ public class QuinteroBackend {
 
         for (Advisory a : advisories) {     // loop through advisories
             if (presetMap.containsKey(a)) { // make sure advisory hasn't been preset
-                unsortedA.remove(a);       // if so, remove it from the shuffle
+                unsortedA.remove(a);        // if so, remove it from the shuffle
             }
         }
 
-        for (int i = 0; i < advisories.size(); i++) { // sorts advisories from least to greatest total using selection sort
+        for (int i = 0; unsortedA.size() > 0; i++) { // sorts advisories from least to greatest total using selection sort
             Advisory least = unsortedA.get(0);       // set initial value
             
             for (int j = 1; j < unsortedA.size(); j++) { // find lowest total
@@ -287,12 +287,12 @@ public class QuinteroBackend {
 
         for (Location l : locations) {      // loop through locations
             if (presetMap.containsKey(l)) { // make sure location hasn't been preset
-                unsortedL.remove(l);       // if so, remove it from the shuffle
+                unsortedL.remove(l);        // if so, remove it from the shuffle
             }
         }
 
-        for (int i = 0; i < locations.size(); i++) { // sorts locations from greatest to least total using selection sort
-            Location greatest = unsortedL.get(0);   // set initial value
+        for (int i = 0; unsortedL.size() > 0; i++) { // sorts locations from greatest to least total using selection sort
+            Location greatest = unsortedL.get(0);    // set initial value
 
             for (int j = 1; j < unsortedL.size(); j++) { // find greatest score
                 if (unsortedL.get(j).score > greatest.score) {
@@ -357,7 +357,7 @@ public class QuinteroBackend {
         HashMap<String,String> ret = new HashMap<>(); // HashMap to return
 
         for (Advisory adv : assignments.keySet()) { // loop through Advisories in assignments
-            ret.put(adv.name, assignmetns.get(adv).name); // create new key value pair with names
+            ret.put(adv.name, assignments.get(adv).name); // create new key value pair with names
         }
 
         return ret;
