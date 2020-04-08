@@ -108,7 +108,7 @@ public class QuinteroBackend {
     * to print as a spreadsheet. Pass in the desired save location.   *
     ******************************************************************/
     public void saveCSV(String filepath) {
-        File save = new File(filepath+"/Assignments.csv"); // create File object
+        File save = new File(filepath); // create File object
         BufferedWriter bw = null;
         FileWriter fw     = null;
 
