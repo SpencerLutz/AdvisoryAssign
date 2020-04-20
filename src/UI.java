@@ -37,6 +37,26 @@ public class Main extends Application {
 	final Color SAYREBLUE = Color.rgb(0,46,95);
 	final Color SAYREYELLOW = Color.rgb(255,204,1);
 	
+	public static boolean advisorFound(ArrayList<Advisory> advisories,String target) {
+		boolean found = false;
+		for(int i = 0;i<advisories.size();i++) {
+			if(advisories.get(i).name.equals(target)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean locationFound1(ArrayList<Location> locations,String target) {
+		boolean found = false;
+		for(int i = 0;i<locations.size();i++) {
+			if(locations.get(i).name.equals(target)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 @Override
 public void start(Stage primaryStage) {
 	QuinteroBackend allData = new QuinteroBackend();
@@ -329,12 +349,8 @@ public void start(Stage primaryStage) {
 	
 	removeLocation.setOnAction(e-> {
 		
-		boolean locationFound = false;
-		for(int i = 0;i<allData.locations.size();i++) {
-			if(allData.locations.get(i).equals(locationInput.getText())) {
-				locationFound = true;
-			}
-		}
+		boolean locationFound = locationFound1(allData.locations,locationInput.getText());
+	
 		Alert alert3 = new Alert(AlertType.ERROR);
 		alert3.initModality(Modality.APPLICATION_MODAL);
 		alert3.initOwner(primaryStage);
@@ -423,7 +439,7 @@ public void start(Stage primaryStage) {
 	
 	VBox advisoriesVBoxTwo = new VBox();
 	advisoriesVBoxTwo.setSpacing(10);
-	advisoriesVBoxTwo.setLayoutX(400);
+	advisoriesVBoxTwo.setLayoutX(450);
 	advisoriesVBoxTwo.setLayoutY(125);
 	
 	TextField input = new TextField("Advisory");
@@ -482,18 +498,15 @@ public void start(Stage primaryStage) {
 	
 	removeAdvisor.setOnAction(e-> {
 		
-		boolean advisorFound = false;
-		for(int i = 0;i<allData.advisories.size();i++) {
-			if(allData.advisories.get(i).equals(input.getText())) {
-				advisorFound = true;
-			}
-		}
+		boolean advisorFound = advisorFound(allData.advisories,input.getText());
+				
 		Alert alert2 = new Alert(AlertType.ERROR);
 		alert2.initModality(Modality.APPLICATION_MODAL);
 		alert2.initOwner(primaryStage);
 		alert2.setTitle("Error");
 		alert2.setHeaderText("Error in finding advisory to remove");
 		alert2.setContentText("No advisory found named " + input.getText());
+		System.out.println(advisorFound);
 		if(advisorFound == false) {
 			alert2.showAndWait();
 		}
@@ -1045,8 +1058,12 @@ public void start(Stage primaryStage) {
 	});
     primaryStage.show();    
 	}
+private boolean locationFound(ArrayList<Location> locations, String text) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
 public static void main(String[] args) {
 	launch(args);
 	}
 }
-
