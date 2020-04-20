@@ -1,15 +1,19 @@
-
-
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.GroupLayout.Alignment;
 
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,6 +30,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 public class Main extends Application {
 	
@@ -44,7 +49,7 @@ public void start(Stage primaryStage) {
 	
 	VBox pairingsVBoxTwo = new VBox();
 	pairingsVBoxTwo.setSpacing(10);
-	pairingsVBoxTwo.setLayoutX(850);
+	pairingsVBoxTwo.setLayoutX(875);
 	pairingsVBoxTwo.setLayoutY(250);
 	
 	Group root = new Group();
@@ -65,6 +70,75 @@ public void start(Stage primaryStage) {
 	Scene helpScene = new Scene(helpGroup);
 	Scene infoScene = new Scene(infoGroup);
 	
+	Image lastBack = new Image("backIcon.png");
+	ImageView lastBackView = new ImageView(lastBack);
+	Button back = new Button("Back");
+	back.setStyle("-fx-background-color: rgb(0,46,200);");
+	back.setTextFill(SAYREYELLOW);
+	back.setLayoutX(50);
+	back.setLayoutY(300);
+	back.setFont(new Font("Consolas",20));
+	back.setPrefWidth(125);
+	back.setPrefHeight(50);
+	
+	back.setOnMouseEntered(e-> {
+		back.setStyle("-fx-background-color: rgb(0,46,125);");
+	});
+	
+	back.setOnMouseExited(e-> {
+		back.setStyle("-fx-background-color: rgb(0,46,150);");
+	});
+	
+	back.setOnAction(e-> {
+		primaryStage.setScene(homeScene);
+		primaryStage.setFullScreen(true);
+	});
+	
+	infoScene.setFill(SAYREBLUE);
+	Label one = new Label("Made by John Gunasar and Spencer Lutz");
+	one.setTextFill(SAYREYELLOW);
+	one.setFont(Font.font("Consolas",FontWeight.SEMI_BOLD,20));
+	one.setLayoutX(50);
+	one.setLayoutY(50);
+	
+	Label two = new Label("John Gunasar");
+	two.setTextFill(SAYREYELLOW);
+	two.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+	two.setLayoutX(50);
+	two.setLayoutY(100);
+	
+	Label three = new Label("Email: tekingunasar@gmail.com");
+	three.setTextFill(SAYREYELLOW);
+	three.setFont(Font.font("Consolas",FontWeight.SEMI_BOLD,20));
+	three.setLayoutX(50);
+	three.setLayoutY(125);
+	
+	Label four = new Label("Number: 1+ (859)-556-3577");
+	four.setTextFill(SAYREYELLOW);
+	four.setFont(Font.font("Consolas",FontWeight.SEMI_BOLD,20));
+	four.setLayoutX(50);
+	four.setLayoutY(150);
+	
+	Label five = new Label("Spencer Lutz");
+	five.setTextFill(SAYREYELLOW);
+	five.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+	five.setLayoutX(50);
+	five.setLayoutY(200);
+	
+	Label six = new Label("Email: 21lutzs@sayreschool.org");
+	six.setTextFill(SAYREYELLOW);
+	six.setFont(Font.font("Consolas",FontWeight.SEMI_BOLD,20));
+	six.setLayoutX(50);
+	six.setLayoutY(225);
+	
+	Label seven = new Label("Number: 1+ (859)-684-5814");
+	seven.setTextFill(SAYREYELLOW);
+	seven.setFont(Font.font("Consolas",FontWeight.SEMI_BOLD,20));
+	seven.setLayoutX(50);
+	seven.setLayoutY(250);
+	
+	infoGroup.getChildren().addAll(one,two,three,four,five,six,seven,back);
+
 	helpScene.setFill(SAYREBLUE);
 	
 	Image backImageSix = new Image("backIcon.png");
@@ -151,7 +225,7 @@ public void start(Stage primaryStage) {
 	thirdTitle.setFont(Font.font("Consolas",FontWeight.BOLD,25));
 	thirdTitle.setTextFill(SAYREYELLOW);
 	
-	helpGroup.getChildren().addAll(backButtona,backImageViewSix,firstTitle,firstStep,secondStep,thirdStep,
+	helpGroup.getChildren().addAll(backButtona,firstTitle,firstStep,secondStep,thirdStep,
 			secondTitle,fourthStep,fifthStep,sixthStep,thirdTitle);
 	
 	editLocationsScene.setFill(SAYREBLUE);
@@ -229,7 +303,6 @@ public void start(Stage primaryStage) {
 	
 	addLocation.setOnAction(e-> {
 		allData.addLocation(locationInput.getText(),Integer.parseInt(scoreInput.getText()));
-		allData.save();
 		Label currentLabel = new Label(locationInput.getText() + " : " + scoreInput.getText());
 		currentLabel.setFont(new Font("Consolas",15));
 		currentLabel.setTextFill(SAYREYELLOW);
@@ -255,24 +328,28 @@ public void start(Stage primaryStage) {
             BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 	
 	removeLocation.setOnAction(e-> {
+		
+		boolean locationFound = false;
+		for(int i = 0;i<allData.locations.size();i++) {
+			if(allData.locations.get(i).equals(locationInput.getText())) {
+				locationFound = true;
+			}
+		}
+		Alert alert3 = new Alert(AlertType.ERROR);
+		alert3.initModality(Modality.APPLICATION_MODAL);
+		alert3.initOwner(primaryStage);
+		alert3.setTitle("Error");
+		alert3.setHeaderText("Error in finding location to be removed");
+		alert3.setContentText("No location found named " + locationInput.getText());
+		if(locationFound == false) {
+			alert3.showAndWait();
+		}
+		
 		allData.removeLocation(locationInput.getText());
-		allData.save();
-		for(int i = 0;i<locationsVBox.getChildren().size();i++) {
-			Label currentLabel = (Label) locationsVBox.getChildren().get(i);
-			if(currentLabel.getText().equals(locationInput.getText())) {
-				locationsVBox.getChildren().remove(i);
-			}
-		}
-		for(int i = 0;i<locationsVBoxTwo.getChildren().size();i++) {
-			Label currentLabel = (Label) locationsVBoxTwo.getChildren().get(i);
-			if(currentLabel.getText().equals(locationInput.getText())) {
-				locationsVBoxTwo.getChildren().remove(i);
-			}
-		}
 		locationsVBox.getChildren().clear();
 		locationsVBoxTwo.getChildren().clear();
 		for(int i = 0;i<allData.locations.size();i++) {
-			Label currentLabel = new Label(allData.locations.get(i).name + " : " + allData.locations.get(i).score);
+			Label currentLabel = new Label(allData.locations.get(i).name + " : " + Integer.toString(allData.locations.get(i).score));
 			currentLabel.setFont(new Font("Consolas",15));
 			currentLabel.setTextFill(SAYREYELLOW);
 			if(i<15) {
@@ -294,7 +371,7 @@ public void start(Stage primaryStage) {
 		}
 	}
 	
-	editLocationsGroup.getChildren().addAll(backToSettingsTwo,backImageViewThree,locationsLabel,locationsVBox,
+	editLocationsGroup.getChildren().addAll(backToSettingsTwo,locationsLabel,locationsVBox,
 			locationsVBoxTwo,locationInput,scoreInput,addLocation,removeLocation);
 		
 	editAdvisoriesScene.setFill(SAYREBLUE);
@@ -389,11 +466,9 @@ public void start(Stage primaryStage) {
 	
 	addAdvisor.setOnAction(e-> {
 		allData.addAdvisory(input.getText());
-		allData.save();
 		Label currentLabel = new Label(input.getText());
 		currentLabel.setFont(new Font("Consolas",15));
 		currentLabel.setTextFill(SAYREYELLOW);
-		
 		for(int i = 0;i<allData.advisories.size();i++) {
 			if(allData.advisories.get(i).name.contentEquals(input.getText())) {
 				if(i > 15) {
@@ -406,13 +481,27 @@ public void start(Stage primaryStage) {
 	});
 	
 	removeAdvisor.setOnAction(e-> {
+		
+		boolean advisorFound = false;
+		for(int i = 0;i<allData.advisories.size();i++) {
+			if(allData.advisories.get(i).equals(input.getText())) {
+				advisorFound = true;
+			}
+		}
+		Alert alert2 = new Alert(AlertType.ERROR);
+		alert2.initModality(Modality.APPLICATION_MODAL);
+		alert2.initOwner(primaryStage);
+		alert2.setTitle("Error");
+		alert2.setHeaderText("Error in finding advisory to remove");
+		alert2.setContentText("No advisory found named " + input.getText());
+		if(advisorFound == false) {
+			alert2.showAndWait();
+		}
+		
 		allData.removeAdvisory(input.getText());
-		allData.save();
-		allData.advisories.clear();
-		allData.locations.clear();
 		advisoriesVBox.getChildren().clear();
 		advisoriesVBoxTwo.getChildren().clear();
-		allData.getData();
+		
 		for(int i = 0;i<allData.advisories.size();i++) {
 			Label currentLabel = new Label(allData.advisories.get(i).name);
 			currentLabel.setFont(new Font("Consolas",15));
@@ -425,7 +514,7 @@ public void start(Stage primaryStage) {
 		}
 	});
 	
-	editAdvisoriesGroup.getChildren().addAll(backToSettings,backImageViewTwo,advisoriesLabel,advisoriesVBox,
+	editAdvisoriesGroup.getChildren().addAll(backToSettings,advisoriesLabel,advisoriesVBox,
 			advisoriesVBoxTwo,input,addAdvisor,removeAdvisor);
 	
 	Image backImage = new Image("backIcon.png");
@@ -455,25 +544,45 @@ public void start(Stage primaryStage) {
 	backButton.setOnAction(e-> {
 		primaryStage.setScene(homeScene);
 		primaryStage.setFullScreen(true);
-		allData.locations.clear();
-		allData.advisories.clear();
-		allData.lines.clear();
+
 		pairingsVBox.getChildren().clear();
 		pairingsVBoxTwo.getChildren().clear();
-		allData.getData();
-		for(int i = 0;i<allData.advisories.size();i++) {
-			int index = allData.advisories.get(i).locationIndex;
-			String name = allData.advisories.get(i).name;
-			String location = allData.locations.get(index).name;
-			Label currentLabel = new Label(name + " : " + location);
+		String[][] advisoryAndIndex = new String[allData.lines.size()][2];
+		String[] locations = new String[allData.lines.size()];
+		int nextIndex = 0;
+		for(int i = 0;i<allData.lines.size();i++) {
+			if(allData.lines.get(i).equals("x")) {
+				nextIndex = i;
+				break;
+			} else {
+				String currentString = allData.lines.get(i);
+				String[] parts = currentString.split(" - ");
+				advisoryAndIndex[i][0] = parts[0];
+				advisoryAndIndex[i][1] = parts[2];
+			}
+		}
+		
+		for(int i = nextIndex+1;i<allData.lines.size();i++) {
+			if(allData.lines.get(i).equals("x")) {
+				break;
+			}
+			String[] parts = allData.lines.get(i).split(" - ");
+			locations[i] = parts[0];
+		}
+		
+		for(int i = 0;i<nextIndex;i++) {
+			int locationIndex = Integer.parseInt(advisoryAndIndex[i][1]);
+			String currentPairing = advisoryAndIndex[i][0] + " : " + locations[locationIndex+nextIndex+1];
+			Label currentLabel = new Label(currentPairing);
 			currentLabel.setFont(new Font("Consolas",15));
 			currentLabel.setTextFill(SAYREYELLOW);
-			if(i<15) {
+			if(pairingsVBox.getChildren().size()<15) {
 				pairingsVBox.getChildren().add(currentLabel);
 			} else {
 				pairingsVBoxTwo.getChildren().add(currentLabel);
 			}
 		}
+
 	});
 	
 	Button editAdvisories = new Button("Edit Advisories");
@@ -524,7 +633,7 @@ public void start(Stage primaryStage) {
 		primaryStage.setFullScreen(true);
 	});
 	
-	settingsGroup.getChildren().addAll(backButton,backImageView,editAdvisories,editLocations);
+	settingsGroup.getChildren().addAll(backButton,editAdvisories,editLocations);
 	
 	Label titleLabel = new Label("Sayre Advisory Assigning Program");
 	titleLabel.setFont(Font.font("Consolas",FontWeight.BOLD,35));
@@ -672,8 +781,7 @@ public void start(Stage primaryStage) {
 		}
 	}
 	
-	locationsGroup.getChildren().addAll(locationLabel,locationInfoVBox,locationInfoVBoxTwo,backToHomeTwo,
-			backImageViewFive);
+	locationsGroup.getChildren().addAll(locationLabel,locationInfoVBox,locationInfoVBoxTwo,backToHomeTwo);
 	
 	Button advisoriesButton = new Button("Advisories");
 	advisoriesButton.setFont(new Font("Consolas",20));
@@ -758,8 +866,7 @@ public void start(Stage primaryStage) {
 		}
 	}
 	
-	advisoriesGroup.getChildren().addAll(advisories,advisoriesInfoVBox,advisoriesInfoVBoxTwo,backToHome,
-			backImageViewFour);
+	advisoriesGroup.getChildren().addAll(advisories,advisoriesInfoVBox,advisoriesInfoVBoxTwo,backToHome);
 	
 	Button helpButton = new Button("Help");
 	helpButton.setFont(new Font("Consolas",20));
@@ -797,6 +904,10 @@ public void start(Stage primaryStage) {
 	infoButton.setBorder(new Border(new BorderStroke(Color.BLACK, 
             BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 	
+	infoButton.setOnAction(e-> {
+		primaryStage.setScene(infoScene);
+		primaryStage.setFullScreen(true);
+	});
 	
 	infoButton.setOnMouseEntered(e-> {
 		infoButton.setStyle("-fx-background-color: rgb(0,46,100);");
@@ -853,28 +964,61 @@ public void start(Stage primaryStage) {
         String path = file.getAbsolutePath();
         allData.saveCSV(path);
 	});
+		
+	Alert alert = new Alert(AlertType.ERROR);
+	alert.initModality(Modality.APPLICATION_MODAL);
+	alert.initOwner(primaryStage);
 	
 	randomize.setOnAction(e-> {
+		if(allData.locations.size()==allData.advisories.size()) {
+		
 		allData.randomize();
-		allData.save();
-		allData.advisories.clear();
-		allData.locations.clear();
 		pairingsVBox.getChildren().clear();
 		pairingsVBoxTwo.getChildren().clear();
-		allData.getData();
+		String[][] advisoryAndIndex = new String[allData.lines.size()][2];
+		String[] locations = new String[allData.lines.size()];
+		int nextIndex = 0;
+		for(int i = 0;i<allData.lines.size();i++) {
+			if(allData.lines.get(i).equals("x")) {
+				nextIndex = i;
+				break;
+			} else {
+				String currentString = allData.lines.get(i);
+				String[] parts = currentString.split(" - ");
+				advisoryAndIndex[i][0] = parts[0];
+				advisoryAndIndex[i][1] = parts[2];
+			}
+		}
 		
-		for(int i = 0;i<allData.advisories.size();i++) {
-			int currentIndex = allData.advisories.get(i).locationIndex;
-			String name = allData.advisories.get(i).name;
-			String location = allData.locations.get(currentIndex).name;
-			Label currentLabel = new Label(name + " : " + location);
+		for(int i = nextIndex+1;i<allData.lines.size();i++) {
+			if(allData.lines.get(i).equals("x")) {
+				break;
+			}
+			String[] parts = allData.lines.get(i).split(" - ");
+			locations[i] = parts[0];
+		}
+		
+		for(int i = 0;i<nextIndex;i++) {
+			int locationIndex = Integer.parseInt(advisoryAndIndex[i][1]);
+			String currentPairing = advisoryAndIndex[i][0] + " : " + locations[locationIndex+nextIndex+1];
+			Label currentLabel = new Label(currentPairing);
 			currentLabel.setFont(new Font("Consolas",15));
 			currentLabel.setTextFill(SAYREYELLOW);
-			if(i<15) {
+			if(pairingsVBox.getChildren().size()<15) {
 				pairingsVBox.getChildren().add(currentLabel);
 			} else {
 				pairingsVBoxTwo.getChildren().add(currentLabel);
 			}
+		}
+	} else {
+			alert.setTitle("Error");
+			alert.setHeaderText("Error in randomization");
+			if(allData.locations.size() > allData.advisories.size()) {
+				alert.setContentText("You have more locations than advisories");
+			} else {
+				alert.setContentText("You have more advisories than locations");
+			}
+			alert.showAndWait();
 		}
 	});
 	
@@ -895,10 +1039,14 @@ public void start(Stage primaryStage) {
 	root.getChildren().addAll(menuRectangle,titleLabel,settingsButton,locationsButton,advisoriesButton,helpButton,
 			infoButton,settingsImageView,locationImageView,profileImageView,helpImageView,infoImageView,sayreImageView,
 			assignmentsLabel,dateToday,pairingsVBox,pairingsVBoxTwo,randomize,save);
-	primaryStage.show();
-}
-
+	
+	primaryStage.setOnCloseRequest(e-> {
+		allData.save();
+	});
+    primaryStage.show();    
+	}
 public static void main(String[] args) {
 	launch(args);
 	}
 }
+
